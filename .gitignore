@@ -1,0 +1,11 @@
+local/
+*.secret
+secrets/
+*.pem
+*.key
+*.env
+50_secrets.zsh
+
+# ZSH cache files
+.zcompdump*
+.zsh_history
