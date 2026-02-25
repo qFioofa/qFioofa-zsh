@@ -46,15 +46,15 @@ if [ "$USE_XDG" = true ]; then
         if [ "$REMOVE" = true ]; then
             [ -f "$ENV_FILE" ] && rm -f "$ENV_FILE"
             [ -d "$TARGET_DIR" ] && rm -rf "$TARGET_DIR"
-            echo "🗑️ Старая конфигурация удалена"
+            echo "Старая конфигурация удалена"
         elif [ "$BACKUP" = true ]; then
             BACKUP_DIR="$HOME/.zsh_backup_$(date +%Y%m%d_%H%M%S)"
             mkdir -p "$BACKUP_DIR"
             [ -f "$ENV_FILE" ] && mv "$ENV_FILE" "$BACKUP_DIR/"
             [ -d "$TARGET_DIR" ] && mv "$TARGET_DIR" "$BACKUP_DIR/"
-            echo "📦 Резервная копия создана: $BACKUP_DIR"
+            echo "Резервная копия создана: $BACKUP_DIR"
         else
-            echo "⚠️ Обнаружена существующая конфигурация"
+            echo "Обнаружена существующая конфигурация"
             echo "Используйте -r для удаления или -b для резервного копирования"
             exit 1
         fi
@@ -102,7 +102,6 @@ else
         fi
     fi
 
-    # Deploy legacy structure
     for file in "${SRC_DIR}"/*; do
         [ -f "$file" ] && cp "$file" "$TARGET_DIR/"
     done

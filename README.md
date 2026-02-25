@@ -28,3 +28,9 @@ Show status of plugin manager
 ```bash
 zinit zstatus
 ```
+
+## Prompt
+
+```bash
+sudo apt install starship
+```

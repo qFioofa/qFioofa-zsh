@@ -1,0 +1,156 @@
+format = """
+[](fg:crimson)\
+[$username](fg:color100 bg:crimson)\
+[](fg:crimson)\
+[](fg:rust)\
+[$directory](fg:color100 bg:rust)\
+[ ](fg:rust)\
+$fill\
+[](fg:sage)\
+$git_branch\
+$git_status\
+[](fg:sage bg:sage)\
+$c\
+$cpp\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$erlang\
+$elixir\
+$python\
+$docker_context\
+$line_break$character"""
+
+palette = 'yugen-ash'
+
+[palettes.yugen-ash]
+color10 = "#ffffff"
+color100 = "#fafafa"
+color200 = "#d4d4d4"
+color300 = "#a9a9a9"
+color400 = "#696969"
+color500 = "#505050"
+color600 = "#303030"
+color700 = "#151515"
+color800 = "#000000"
+crimson = "#bf616a"
+rust = "#bc735c"
+primary = "#ffbe89"
+slate = "#5d6d7e"
+ember = "#b35a3a"
+mist = "#a8c4c4"
+bloom = "#c38b9e"
+tide = "#79a0aa"
+sage = "#9db89c"
+gold = "#d4a017"
+
+[fill]
+symbol = ' '
+
+[username]
+show_always = true
+style_user = "bg:crimson fg:color10"
+style_root = "bg:crimson fg:color10"
+format = '[ $user ]($style)'
+
+[directory]
+style = "fg:color10 bg:rust"
+format = "[ $path ]($style)"
+truncation_length = 30
+truncation_symbol = "~/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "bg:sage"
+format = '[[ $symbol $branch ](fg:color700 bg:sage)]($style)'
+
+[git_status]
+style = "bg:sage"
+format = '[[($all_status$ahead_behind )](fg:color700 bg:sage)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[c]
+symbol = " "
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+# [cpp]
+# symbol = " "
+# style = "bg:slate"
+# format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[php]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[java]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[erlang]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[elixir]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[python]
+symbol = ""
+style = "bg:slate"
+format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
+
+[docker_context]
+style = "bg:color500"
+format = '[[ $symbol( $context) ](fg:tide bg:color500)]($style)'
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = '[](fg:crimson)'
+error_symbol = '[](bold fg:crimson)'
+vimcmd_symbol = '[](bold fg:sage)'
+vimcmd_replace_one_symbol = '[](bold fg:bloom)'
+vimcmd_replace_symbol = '[](bold fg:bloom)'
+vimcmd_visual_symbol = '[](bold fg:gold)'

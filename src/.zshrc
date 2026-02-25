@@ -15,6 +15,12 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
+zinit light starship/starship
+
+# Plugin individual settings
+PLUGIN_FOLDER="$HOME/.config/zsh/plugins/"
+
+export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
 
 # History
 HISTSIZE=5000
@@ -34,5 +40,12 @@ alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
 
-# Other
-cd ~/Desktop/
+# Aliases git
+alias gst='git status'
+
+gpf() {
+	git add . && git commit -m "$1" && git push origin "${2:-main}"
+}
+
+# Must be at the end
+eval "$(starship init zsh)"
