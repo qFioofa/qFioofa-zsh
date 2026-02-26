@@ -1,12 +1,13 @@
 format = """
 [](fg:crimson)\
+[  ](fg:color100 bg:crimson)\
 [$username](fg:color100 bg:crimson)\
 [](fg:crimson)\
 [](fg:rust)\
+[  ](fg:color100 bg:rust)\
 [$directory](fg:color100 bg:rust)\
 [ ](fg:rust)\
 $fill\
-[](fg:sage)\
 $git_branch\
 $git_status\
 [](fg:sage bg:sage)\
@@ -23,6 +24,7 @@ $erlang\
 $elixir\
 $python\
 $docker_context\
+$battery\
 $line_break$character"""
 
 palette = 'yugen-ash'
@@ -48,6 +50,12 @@ tide = "#79a0aa"
 sage = "#9db89c"
 gold = "#d4a017"
 
+[battery]
+disabled = false
+full_symbol = '🔋 '
+charging_symbol = '⚡️ '
+discharging_symbol = '💀 '
+
 [fill]
 symbol = ' '
 
@@ -60,7 +68,7 @@ format = '[ $user ]($style)'
 [directory]
 style = "fg:color10 bg:rust"
 format = "[ $path ]($style)"
-truncation_length = 30
+truncation_length = 3
 truncation_symbol = "~/"
 
 [directory.substitutions]
@@ -73,7 +81,7 @@ truncation_symbol = "~/"
 [git_branch]
 symbol = ""
 style = "bg:sage"
-format = '[[ $symbol $branch ](fg:color700 bg:sage)]($style)'
+format = '[[](fg:sage)[ $symbol $branch ](fg:color700 bg:sage)]($style)'
 
 [git_status]
 style = "bg:sage"
@@ -148,9 +156,9 @@ disabled = false
 
 [character]
 disabled = false
-success_symbol = '[](fg:crimson)'
-error_symbol = '[](bold fg:crimson)'
-vimcmd_symbol = '[](bold fg:sage)'
-vimcmd_replace_one_symbol = '[](bold fg:bloom)'
-vimcmd_replace_symbol = '[](bold fg:bloom)'
-vimcmd_visual_symbol = '[](bold fg:gold)'
+success_symbol = '[  ](fg:crimson)'
+error_symbol = '[  ](fg:gold)'
+vimcmd_symbol = '[  ](bold fg:sage)'
+vimcmd_replace_one_symbol = '[  ](bold fg:bloom)'
+vimcmd_replace_symbol = '[  ](bold fg:bloom)'
+vimcmd_visual_symbol = '[  ](bold fg:gold)'
