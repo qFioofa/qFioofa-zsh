@@ -1,12 +1,3 @@
-
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -30,6 +21,13 @@ zinit light starship/starship
 autoload -Uz compinit && compinit
 
 zinit cdreplay -q
+
+# Plugin individual settings
+PLUGIN_FOLDER="$HOME/.config/zsh/plugins"
+
+export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
+source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
+source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 
 # Keybindings
 bindkey -e
