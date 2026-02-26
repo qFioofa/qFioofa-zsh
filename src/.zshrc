@@ -1,3 +1,12 @@
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+if [[ -f "/opt/homebrew/bin/brew" ]] then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -17,11 +26,16 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit light starship/starship
 
-# Plugin individual settings
-PLUGIN_FOLDER="$HOME/.config/zsh/plugins/"
-source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
+# Load completions
+autoload -Uz compinit && compinit
 
-export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
+zinit cdreplay -q
+
+# Keybindings
+bindkey -e
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
 
 # History
 HISTSIZE=5000
@@ -36,17 +50,30 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-# Aliases
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
 alias ls='ls --color'
+alias ll='ls -la'
+alias vi='nvim'
 alias vim='nvim'
 alias c='clear'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
 
-# Aliases git
 alias gst='git status'
 
 gpf() {
-	git add . && git commit -m "$1" && git push origin "${2:-main}"
+    git add . && git commit -m "$1" && git push origin "${2:-main}"
 }
 
-# Must be at the end
+export EDITOR=nvim
+export VISUAL=nvim
+
 eval "$(starship init zsh)"
+eval "$(fzf --zsh)"

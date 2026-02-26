@@ -34,3 +34,9 @@ zinit zstatus
 ```bash
 sudo apt install starship
 ```
+
+## Install fzf
+
+```bash
+sudo apt install fzf
+```
