@@ -19,6 +19,7 @@ zinit light starship/starship
 
 # Plugin individual settings
 PLUGIN_FOLDER="$HOME/.config/zsh/plugins/"
+source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 
 export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
 
