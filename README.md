@@ -2,6 +2,24 @@
 
 Personal zsh config.
 
+# Showcase
+
+## Overview
+
+![ex1](./images/ex1.png)
+
+![ex2](./images/ex2.png)
+
+## Syntax highlight
+
+![highlight](./images/highlight.png)
+
+> Note: [file for testing terminal highlighs](./extra/highlight_test.bash)
+
+## Music switch
+
+![music_switch](./images/music.gif)
+
 # Install
 
 Install the zsh throw package manager
