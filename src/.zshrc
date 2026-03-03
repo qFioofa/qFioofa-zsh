@@ -48,6 +48,8 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+setopt AUTO_CD
+
 # Completion styling
 zstyle ":completion:*" matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"
@@ -68,6 +70,9 @@ alias cdD="cd ~/Desktop/"
 alias gst="git status"
 alias pwoff="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
+
+alias d-c="docker compose"
+alias d-cl="docker compose logs -f"
 
 gpf() {
 	git add . && git commit -m "$1" && git push origin "${2:-main}"
