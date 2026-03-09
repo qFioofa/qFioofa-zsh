@@ -71,8 +71,13 @@ alias gst="git status"
 alias pwoff="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 
+# Docker
 alias d-c="docker compose"
 alias d-cl="docker compose logs -f"
+
+# Tmux
+alias tm="tmux"
+alias "tmd"="tmux detach-client"
 
 gpf() {
 	git add . && git commit -m "$1" && git push origin "${2:-main}"

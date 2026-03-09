@@ -39,7 +39,7 @@ chsh -s $(which zsh)
 - Deploy from cloned repo
 
 ```bash
-bash deploy_config.sh -r && exec zsh
+bash scripts/deploy.sh -r && exec zsh
 ```
 
 # Plugins
