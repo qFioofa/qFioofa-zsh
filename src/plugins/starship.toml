@@ -181,7 +181,7 @@ disabled = false
 
 [custom.tmux]
 disabled = false
-command = "echo "
+command = "echo  "
 when = "env | grep -q '^TMUX='"
 format = '[](fg:sage)[[ $output ](fg:color100 bg:sage)]($style)[](fg:sage)'
 style = "bg:sage"
