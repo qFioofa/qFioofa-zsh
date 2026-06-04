@@ -64,3 +64,18 @@ sudo apt install starship
 ```bash
 sudo apt install playerctl
 ```
+
+# Nix
+
+Ships a `flake.nix` exposing a Home Manager module (`homeManagerModules.default`).
+It symlinks `./src` to `~/.config/zsh` via `xdg.configFile` and also writes a
+`~/.zshenv` that sets `ZDOTDIR` so zsh loads `.zshrc` from there — the declarative
+equivalent of `scripts/deploy.sh`.
+
+```nix
+# flake inputs
+qFioofa-zsh.url = "github:qFioofa/qFioofa-zsh";
+
+# home configuration
+imports = [ qFioofa-zsh.homeManagerModules.default ];
+```
