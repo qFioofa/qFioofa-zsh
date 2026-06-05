@@ -57,7 +57,7 @@ zstyle ":completion:*" menu no
 zstyle ":fzf-tab:complete:cd:*" fzf-preview 'ls --color $realpath'
 zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview 'ls --color $realpath'
 
-alias ls="ls --color"
+alias ls="ls --color -1"
 alias ll="ls -la"
 alias vi="nvim"
 alias vim="nvim"
@@ -68,8 +68,9 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias cdD="cd ~/Desktop/"
 alias gst="git status"
-alias pwoff="poweroff"
+alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
+alias claude="claude --dangerously-skip-permissions"
 
 # Docker
 alias d-c="docker compose"
@@ -78,6 +79,33 @@ alias d-cl="docker compose logs -f"
 # Tmux
 alias tm="tmux"
 alias "tmd"="tmux detach-client"
+
+# Nix
+nixs() {
+    local query="${*}"
+    query="${query// /+}"
+    local url="https://search.nixos.org/packages?query=${query}"
+
+    if ! command -v xdg-open >/dev/null; then
+        echo "Open in browser: $url"
+        return
+    fi
+
+    xdg-open "$url"
+
+    local browser=$(xdg-settings get default-web-browser 2>/dev/null | sed 's/\.desktop$//')
+    if [ -n "$browser" ]; then
+        if command -v wmctrl >/dev/null; then
+            wmctrl -x -a "$browser" 2>/dev/null || wmctrl -a "$browser" 2>/dev/null
+        elif command -v xdotool >/dev/null; then
+            xdotool search --class "$browser" windowactivate 2>/dev/null
+        fi
+    fi
+}
+
+nix-switch() {
+    sudo nixos-rebuild switch --flake .#"${1:-qFioofa}"
+}
 
 gpf() {
 	git add . && git commit -m "$1" && git push origin "${2:-main}"
