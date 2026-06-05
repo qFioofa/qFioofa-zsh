@@ -66,7 +66,7 @@ alias e="exit"
 alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
-alias cdD="cd ~/Desktop/"
+alias cdd="cd ~/Desktop/"
 alias gst="git status"
 alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
@@ -78,7 +78,7 @@ alias d-cl="docker compose logs -f"
 
 # Tmux
 alias tm="tmux"
-alias "tmd"="tmux detach-client"
+alias tmd="tmux detach-client"
 
 # Nix
 nixs() {
@@ -103,7 +103,7 @@ nixs() {
     fi
 }
 
-nix-switch() {
+nixsw() {
     sudo nixos-rebuild switch --flake .#"${1:-qFioofa}"
 }
 
