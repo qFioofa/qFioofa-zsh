@@ -80,6 +80,27 @@ alias d-cl="docker compose logs -f"
 alias tm="tmux"
 alias tmd="tmux detach-client"
 
+tmn() {
+    local terms="${1:-1}"
+    local dir="$PWD"
+    local session="dev-${PWD:t}-$$"
+
+    tmux new-session -d -s "$session" -c "$dir" "nvim ."
+
+    local i
+    for (( i = 1; i <= terms; i++ )); do
+        tmux new-window -t "$session" -c "$dir"
+    done
+
+    tmux select-window -t "$session":0
+
+    if [ -n "$TMUX" ]; then
+        tmux switch-client -t "$session"
+    else
+        tmux attach-session -t "$session"
+    fi
+}
+
 # Nix
 nixs() {
     local query="${*}"
@@ -104,7 +125,7 @@ nixs() {
 }
 
 nixsw() {
-    sudo nixos-rebuild switch --flake .#"${1:-qFioofa}"
+    nixos-rebuild switch --flake ".#${1:-qFioofa}"
 }
 
 gpf() {
