@@ -83,7 +83,7 @@ alias tmd="tmux detach-client"
 tmn() {
     local terms="${1:-1}"
     local dir="$PWD"
-    local session="dev-${PWD:t}-$$"
+    local session="${PWD:t}-$$"
 
     tmux new-session -d -s "$session" -c "$dir" "nvim ."
 
@@ -124,8 +124,12 @@ nixs() {
     fi
 }
 
+nixpa() {
+    nix profile add nixpkgs#"$1"
+}
+
 nixsw() {
-    nixos-rebuild switch --flake ".#${1:-qFioofa}"
+    sudo nixos-rebuild switch --flake ".#${1:-qFioofa}"
 }
 
 gpf() {
