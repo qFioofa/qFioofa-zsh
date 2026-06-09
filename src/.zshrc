@@ -10,29 +10,45 @@ fi
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-# zinit light Aloxaf/fzf-tab
-zinit light starship/starship
-
-# Load completions
-autoload -Uz compinit && compinit
-
-zinit cdreplay -q
-
-# Plugin individual settings
-PLUGIN_FOLDER="$HOME/.config/zsh/plugins"
-
+# Plugin individual settings.
+# These only set variables / define widgets, so they are sourced now (before the
+# turbo-loaded plugins activate after the first prompt).
+PLUGIN_FOLDER="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
 export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
 source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 
+# Hooks applied by zinit's `atload` once the relevant plugin has finished loading
+# (turbo plugins load after the first prompt, so these run then too).
+_apply_tab_binding() {
+  # fzf-tab rebinds ^I when it loads; re-apply our Tab widget afterwards so it
+  # wins (accept autosuggestion -> fzf-tab menu -> plain completion).
+  bindkey '^I' _autosuggest_tab_complete
+}
+_apply_hss_binding() {
+  bindkey '^p' history-substring-search-up
+  bindkey '^n' history-substring-search-down
+  bindkey "${terminfo[kcuu1]}" history-substring-search-up
+  bindkey "${terminfo[kcud1]}" history-substring-search-down
+}
+
+zinit ice wait lucid atload"_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+
+zinit ice wait lucid blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+
+zinit ice wait lucid atinit"zicompinit; zicdreplay" atload"_apply_tab_binding"
+zinit light Aloxaf/fzf-tab
+
+zinit ice wait lucid atload"_apply_hss_binding"
+zinit light zsh-users/zsh-history-substring-search
+
+zinit ice wait lucid
+zinit light zsh-users/zsh-syntax-highlighting
+
 # Keybindings
 bindkey -e
-bindkey "^p" history-search-backward
-bindkey "^n" history-search-forward
 bindkey "^[w" kill-region
 
 # History
@@ -40,25 +56,40 @@ HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
-setopt appendhistory
 setopt sharehistory
+setopt inc_append_history
+setopt extended_history
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
+setopt hist_reduce_blanks
 
 setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+setopt INTERACTIVE_COMMENTS
+setopt EXTENDED_GLOB
 
 # Completion styling
 zstyle ":completion:*" matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"
 zstyle ":completion:*" menu no
-zstyle ":fzf-tab:complete:cd:*" fzf-preview 'ls --color $realpath'
-zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview 'ls --color $realpath'
+zstyle ":fzf-tab:complete:cd:*" fzf-preview 'eza -1 --color=always --icons $realpath'
+zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview 'eza -1 --color=always --icons $realpath'
 
-alias ls="ls --color -1"
-alias ll="ls -la"
+# Modern CLI replacements (interactive only; scripts still get the real tools)
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -la --icons --group-directories-first --git"
+alias la="eza -a --icons --group-directories-first"
+alias lt="eza --tree --level=2 --icons"
+alias cat="bat --paging=never"
+alias top="btop"
+alias du="dust"
+alias grep="grep --color=auto"   # rg is great, but kept separate to avoid flag surprises
+
 alias vi="nvim"
 alias vim="nvim"
 alias c="clear"
@@ -67,10 +98,17 @@ alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
 alias cdd="cd ~/Desktop/"
-alias gst="git status"
+alias d="dirs -v"                # jump list populated by AUTO_PUSHD
 alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 alias claude="claude --dangerously-skip-permissions"
+
+# Git
+alias gst="git status"
+alias gd="git diff"
+alias gl="git log --oneline --graph --decorate -20"
+alias gco="git checkout"
+alias gp="git pull"
 
 # Docker
 alias d-c="docker compose"
@@ -137,37 +175,37 @@ gpf() {
 }
 
 t() {
-	touch "$1"
+	mkdir -p "$(dirname -- "$1")" && touch "$1"
 }
 
 player_prev_cmd() {
-  playerctl previous
-  zle .reset-prompt
-  zle -R
+    playerctl previous
+    zle .reset-prompt
+    zle -R
 }
 
 player_next_cmd() {
-  playerctl next
-  zle .reset-prompt
-  zle -R
+    playerctl next
+    zle .reset-prompt
+    zle -R
 }
 
 player_toggle_cmd() {
-  playerctl play-pause
-  zle .reset-prompt
-  zle -R
+    playerctl play-pause
+    zle .reset-prompt
+    zle -R
 }
 
 player_vol_up() {
-  playerctl volume 0.05+
-  zle .reset-prompt
-  zle -R
+    playerctl volume 0.05+
+    zle .reset-prompt
+    zle -R
 }
 
 player_vol_down() {
-  playerctl volume 0.05-
-  zle .reset-prompt
-  zle -R
+    playerctl volume 0.05-
+    zle .reset-prompt
+    zle -R
 }
 
 zle -N player_vol_up
@@ -192,4 +230,5 @@ export EDITOR=nvim
 export VISUAL=nvim
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"

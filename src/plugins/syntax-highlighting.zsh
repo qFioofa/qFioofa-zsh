@@ -1,3 +1,5 @@
+typeset -gA ZSH_HIGHLIGHT_STYLES
+
 ZSH_HIGHLIGHT_STYLES[default]=fg=#fafafa
 ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=#d4a017
 ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=#c678dd,bold
