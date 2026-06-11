@@ -80,8 +80,26 @@ zstyle ":completion:*" menu no
 zstyle ":fzf-tab:complete:cd:*" fzf-preview 'eza -1 --color=always --icons $realpath'
 zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview 'eza -1 --color=always --icons $realpath'
 
+# eza file colors drawn from the yugen-ash palette (see plugins/starship.toml).
+# di=dirs(tide) fi=files(color200) ex=exec(sage) ln=symlink(mist) or=broken(crimson)
+# bd/cd=devices(gold) pi/so=pipe/socket(bloom); plus a few extension groups.
+export EZA_COLORS="\
+di=38;2;121;160;170:\
+fi=38;2;212;212;212:\
+ex=38;2;157;184;156:\
+ln=38;2;168;196;196:\
+or=38;2;191;97;106:\
+bd=38;2;212;160;23:\
+cd=38;2;212;160;23:\
+pi=38;2;195;139;158:\
+so=38;2;195;139;158:\
+*.tar=38;2;179;90;58:*.gz=38;2;179;90;58:*.tgz=38;2;179;90;58:*.zip=38;2;179;90;58:*.xz=38;2;179;90;58:*.zst=38;2;179;90;58:*.7z=38;2;179;90;58:*.bz2=38;2;179;90;58:*.rar=38;2;179;90;58:\
+*.png=38;2;195;139;158:*.jpg=38;2;195;139;158:*.jpeg=38;2;195;139;158:*.gif=38;2;195;139;158:*.svg=38;2;195;139;158:*.webp=38;2;195;139;158:\
+*.mp3=38;2;212;160;23:*.flac=38;2;212;160;23:*.wav=38;2;212;160;23:*.mp4=38;2;212;160;23:*.mkv=38;2;212;160;23:*.mov=38;2;212;160;23:\
+*.md=38;2;168;196;196:*.txt=38;2;168;196;196:*.pdf=38;2;168;196;196"
+
 # Modern CLI replacements (interactive only; scripts still get the real tools)
-alias ls="eza --icons --group-directories-first"
+alias ls="eza -1 --icons --group-directories-first"
 alias ll="eza -la --icons --group-directories-first --git"
 alias la="eza -a --icons --group-directories-first"
 alias lt="eza --tree --level=2 --icons"
