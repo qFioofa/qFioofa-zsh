@@ -6,16 +6,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#a9a9a9,underline"
 # Use end of history for matching
 ZSH_AUTOSUGGEST_STRATEGY=history
 
-# Tab accepts the current autosuggestion; otherwise performs plain completion,
-# filling in files from the current directory instead of opening the fzf-tab
-# suggestion menu.
-# NOTE: the actual `bindkey '^I' ...` lives in .zshrc and is applied *after*
-# fzf-tab loads (fzf-tab rebinds ^I itself), so it must not be bound here.
-_autosuggest_tab_complete() {
-  if [[ -n "$POSTDISPLAY" ]]; then
-    zle autosuggest-accept
-  else
-    zle expand-or-complete
-  fi
-}
-zle -N _autosuggest_tab_complete
+# Tab no longer touches the autosuggestion — it just completes files in the
+# current directory (bash-like). Accepting the autosuggestion is a separate key
+# (Ctrl+Space), and Ctrl+Right accepts it word-by-word. Those bindings live in
+# .zshrc, where Tab is re-applied *after* fzf-tab loads (fzf-tab rebinds ^I).

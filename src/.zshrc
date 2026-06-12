@@ -21,9 +21,10 @@ source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 # Hooks applied by zinit's `atload` once the relevant plugin has finished loading
 # (turbo plugins load after the first prompt, so these run then too).
 _apply_tab_binding() {
-  # fzf-tab rebinds ^I when it loads; re-apply our Tab widget afterwards so it
-  # wins (accept autosuggestion -> fzf-tab menu -> plain completion).
-  bindkey '^I' _autosuggest_tab_complete
+  # fzf-tab rebinds ^I when it loads; re-apply Tab afterwards so it wins.
+  # Tab = plain directory/file completion (bash-like). It does NOT accept the
+  # history autosuggestion — that's Ctrl+Space (see keybindings below).
+  bindkey '^I' expand-or-complete
 }
 _apply_hss_binding() {
   bindkey '^p' history-substring-search-up
@@ -50,6 +51,23 @@ zinit light zsh-users/zsh-syntax-highlighting
 # Keybindings
 bindkey -e
 bindkey "^[w" kill-region
+
+# Accept the whole history autosuggestion (the grey ghost text). Tab is reserved
+# for directory completion, so accepting the suggestion gets its own key.
+# (Right arrow / Ctrl+E still accept it too, via zsh-autosuggestions defaults.)
+bindkey '^ ' autosuggest-accept          # Ctrl+Space
+
+# Word movement with Ctrl+Arrow (zsh doesn't bind these out of the box).
+# Ctrl+Right also accepts the autosuggestion one word at a time.
+bindkey '^[[1;5C' forward-word           # Ctrl+Right
+bindkey '^[[1;5D' backward-word          # Ctrl+Left
+bindkey '^[[1;3C' forward-word           # Alt+Right  (fallback for some terms)
+bindkey '^[[1;3D' backward-word          # Alt+Left
+bindkey '^[Oc'    forward-word           # Ctrl+Right (xterm/rxvt variants)
+bindkey '^[Od'    backward-word
+bindkey '^[[5C'   forward-word
+bindkey '^[[5D'   backward-word
+bindkey '^H'      backward-kill-word     # Ctrl+Backspace (delete word back)
 
 # History
 HISTSIZE=5000
