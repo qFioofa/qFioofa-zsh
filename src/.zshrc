@@ -20,12 +20,6 @@ source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 
 # Hooks applied by zinit's `atload` once the relevant plugin has finished loading
 # (turbo plugins load after the first prompt, so these run then too).
-_apply_tab_binding() {
-  # fzf-tab rebinds ^I when it loads; re-apply Tab afterwards so it wins.
-  # Tab = plain directory/file completion (bash-like). It does NOT accept the
-  # history autosuggestion — that's Ctrl+Space (see keybindings below).
-  bindkey '^I' expand-or-complete
-}
 _apply_hss_binding() {
   bindkey '^p' history-substring-search-up
   bindkey '^n' history-substring-search-down
@@ -39,18 +33,22 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
-zinit ice wait lucid atinit"zicompinit; zicdreplay" atload"_apply_tab_binding"
-zinit light Aloxaf/fzf-tab
-
 zinit ice wait lucid atload"_apply_hss_binding"
 zinit light zsh-users/zsh-history-substring-search
 
-zinit ice wait lucid
+# zicompinit boots the completion system; run it on the last turbo plugin so
+# every completion definition (incl. zsh-completions) is registered first.
+zinit ice wait lucid atinit"zicompinit; zicdreplay"
 zinit light zsh-users/zsh-syntax-highlighting
 
 # Keybindings
 bindkey -e
 bindkey "^[w" kill-region
+
+# Tab = classic, bash-like completion. First Tab fills the longest common
+# prefix; a second Tab opens the highlighted zsh menu you cycle with Tab/arrows.
+# It NEVER accepts the grey history suggestion — that lives on Ctrl+Space below.
+bindkey '^I' expand-or-complete
 
 # Accept the whole history autosuggestion (the grey ghost text). Tab is reserved
 # for directory completion, so accepting the suggestion gets its own key.
@@ -94,9 +92,19 @@ setopt EXTENDED_GLOB
 # Completion styling
 zstyle ":completion:*" matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"
-zstyle ":completion:*" menu no
-zstyle ":fzf-tab:complete:cd:*" fzf-preview 'eza -1 --color=always --icons $realpath'
-zstyle ":fzf-tab:complete:__zoxide_z:*" fzf-preview 'eza -1 --color=always --icons $realpath'
+# Classic highlighted menu: navigate with Tab/arrows, Enter accepts.
+zstyle ":completion:*" menu select
+
+# bash-like Tab flow:
+#   AUTO_LIST        — list matches when the completion is ambiguous, but…
+#   LIST_AMBIGUOUS   — …only once the common prefix is filled, so the list shows
+#                      up on the SECOND Tab (just like bash)
+#   AUTO_MENU        — repeated Tab then cycles through the highlighted menu
+#   no MENU_COMPLETE — first Tab fills the prefix; it never jumps to match #1
+setopt AUTO_LIST
+setopt LIST_AMBIGUOUS
+setopt AUTO_MENU
+unsetopt MENU_COMPLETE
 
 # eza file colors drawn from the yugen-ash palette (see plugins/starship.toml).
 # di=dirs(tide) fi=files(color200) ex=exec(sage) ln=symlink(mist) or=broken(crimson)
