@@ -17,6 +17,7 @@ PLUGIN_FOLDER="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
 export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
 source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
+source "${PLUGIN_FOLDER}/man-colors.zsh"
 
 # Hooks applied by zinit's `atload` once the relevant plugin has finished loading
 # (turbo plugins load after the first prompt, so these run then too).
