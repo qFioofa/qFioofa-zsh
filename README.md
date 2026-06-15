@@ -65,6 +65,20 @@ sudo apt install starship
 sudo apt install playerctl
 ```
 
+## CLI tools
+
+The config auto-detects these and degrades gracefully if they are missing
+(each is guarded with `command -v`). Install for the full experience:
+
+```bash
+sudo apt install git-delta lazygit fd-find bat eza fzf ripgrep
+```
+
+- `delta` — git's diff pager, themed with yugen-ash (`plugins/git-tools.zsh`)
+- `lazygit` — terminal git UI, aliased to `lg`
+- `fd`, `bat`, `eza` — power the fzf previews in `plugins/fzf-extras.zsh`
+- `fzf` previews/`fkill`, plus `Ctrl+X Ctrl+E` to edit the command line in `$EDITOR`
+
 # Nix
 
 Ships a `flake.nix` exposing a Home Manager module (`homeManagerModules.default`).

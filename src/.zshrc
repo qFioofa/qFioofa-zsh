@@ -18,6 +18,8 @@ export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
 source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 source "${PLUGIN_FOLDER}/man-colors.zsh"
+source "${PLUGIN_FOLDER}/git-tools.zsh"
+source "${PLUGIN_FOLDER}/fzf-extras.zsh"
 
 # Hooks applied by zinit's `atload` once the relevant plugin has finished loading
 # (turbo plugins load after the first prompt, so these run then too).
@@ -50,6 +52,12 @@ bindkey "^[w" kill-region
 # prefix; a second Tab opens the highlighted zsh menu you cycle with Tab/arrows.
 # It NEVER accepts the grey history suggestion — that lives on Ctrl+Space below.
 bindkey '^I' expand-or-complete
+
+# Ctrl+X Ctrl+E — open the current command line in $EDITOR (nvim) and run it on
+# save. Handy for long or multi-line commands that are awkward to edit inline.
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
 
 # Accept the whole history autosuggestion (the grey ghost text). Tab is reserved
 # for directory completion, so accepting the suggestion gets its own key.
@@ -148,12 +156,15 @@ alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 alias claude="claude --dangerously-skip-permissions"
 
-# Git
-alias gst="git status"
-alias gd="git diff"
-alias gl="git log --oneline --graph --decorate -20"
-alias gco="git checkout"
-alias gp="git pull"
+# xdg-utils (shorter names for the long xdg-* commands)
+alias open="xdg-open"            # open a file/URL with the default app
+alias xo="xdg-open"
+alias xmime="xdg-mime"           # query/set default app for a mime type
+alias xset-default="xdg-settings"
+alias xemail="xdg-email"         # compose mail with the default client
+alias xdir="xdg-user-dir"        # resolve XDG dirs, e.g. xdir DOWNLOAD
+
+# Git aliases & tooling live in plugins/git-tools.zsh (sourced above).
 
 # Docker
 alias d-c="docker compose"
@@ -213,10 +224,6 @@ nixpa() {
 
 nixsw() {
     sudo nixos-rebuild switch --flake ".#${1:-qFioofa}"
-}
-
-gpf() {
-	git add . && git commit -m "$1" && git push origin "${2:-main}"
 }
 
 t() {
