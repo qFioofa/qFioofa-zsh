@@ -26,7 +26,6 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(
   down-line-or-history
   accept-line
   copy-earlier-word
-  # completion widgets, so Tab never touches the suggestion:
   expand-or-complete
   expand-or-complete-prefix
   complete-word

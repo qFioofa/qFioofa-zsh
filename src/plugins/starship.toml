@@ -8,25 +8,11 @@ format = """
 [$directory](fg:color100 bg:rust)\
 [ ](fg:rust)\
 $fill\
-$c\
-$cpp\
-$rust\
-$golang\
-$nodejs\
-$php\
-$java\
-$kotlin\
-$haskell\
-$erlang\
-$elixir\
-$python\
 $docker_context\
 $battery\
 $git_branch\
+$git_state\
 $git_status\
-[](fg:bloom)\
-${custom.player}\
-[](fg:bloom)\
 ${custom.tmux}\
 $line_break$character"""
 
@@ -53,33 +39,45 @@ tide = "#79a0aa"
 sage = "#9db89c"
 gold = "#d4a017"
 
-[custom.player]
-command = '''
-if command -v playerctl >/dev/null 2>&1; then
-    title=$(playerctl metadata --format "{{title}}" 2>/dev/null)
-    artist=$(playerctl metadata --format "{{artist}}" 2>/dev/null)
-    if [[ -n "$title" ]]; then
-        full="$title  $artist"
-        if [[ ${#full} -gt 25 ]]; then
-            full="${full:0:23}󰇘"
-        fi
-        echo "♪ $full"
-    else
-        echo "♪"
-    fi
-else
-    echo "✗"
-fi
-'''
-when = "true"
-format = '[ $output ](fg:color10 bg:bloom)'
-disabled = false
+# [custom.player]
+# command = '''
+# if command -v playerctl >/dev/null 2>&1; then
+#     title=$(playerctl metadata --format "{{title}}" 2>/dev/null)
+#     artist=$(playerctl metadata --format "{{artist}}" 2>/dev/null)
+#     if [[ -n "$title" ]]; then
+#         full="$title  $artist"
+#         if [[ ${#full} -gt 25 ]]; then
+#             full="${full:0:23}󰇘"
+#         fi
+#         echo "♪ $full"
+#     else
+#         echo "♪"
+#     fi
+# else
+#     echo "✗"
+# fi
+# '''
+# when = "true"
+# format = '[ $output ](fg:color10 bg:bloom)'
+# disabled = false
 
 [battery]
 disabled = false
-full_symbol = '🔋 '
-charging_symbol = '⚡️ '
-discharging_symbol = '💀 '
+full_symbol = '󰁹'
+charging_symbol = '󰂄'
+discharging_symbol = '󰂌'
+unknown_symbol = '󰁽'
+empty_symbol = '󰂃'
+format = '[](fg:gold)[ $symbol $percentage ]($style)[](fg:gold)'
+
+# low battery -> crimson text on the gold island (caps stay gold)
+[[battery.display]]
+threshold = 20
+style = 'fg:crimson bg:gold'
+
+[[battery.display]]
+threshold = 100
+style = 'fg:color700 bg:gold'
 
 [fill]
 symbol = ' '
@@ -108,9 +106,31 @@ symbol = ""
 style = "bg:sage"
 format = '[[](fg:sage)[ $symbol $branch ](fg:color700 bg:sage)]($style)'
 
+[git_state]
+style = "bg:sage"
+format = '[ \($state $progress_current/$progress_total\) ](fg:crimson bg:sage)'
+rebase = "rebase"
+merge = "merge"
+revert = "revert"
+cherry_pick = "cherry"
+bisect = "bisect"
+am = "am"
+am_or_rebase = "am/rebase"
+
 [git_status]
 style = "bg:sage"
-format = '[[($all_status$ahead_behind )](fg:color700 bg:sage)]($style)[](fg:sage)'
+conflicted = '=${count} '
+ahead = '⇡${count} '
+behind = '⇣${count} '
+diverged = '⇕⇡${ahead_count}⇣${behind_count} '
+up_to_date = ''
+untracked = '?${count} '
+stashed = '*${count} '
+modified = '!${count} '
+staged = '+${count} '
+renamed = '»${count} '
+deleted = '✘${count} '
+format = '[[ $all_status$ahead_behind](fg:color700 bg:sage)]($style)[](fg:sage)'
 
 [nodejs]
 symbol = ""
