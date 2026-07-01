@@ -8,8 +8,8 @@ format = """
 [$directory](fg:color100 bg:rust)\
 [ ](fg:rust)\
 $fill\
-$docker_context\
 $battery\
+$docker_context\
 $git_branch\
 $git_state\
 $git_status\
@@ -68,16 +68,11 @@ charging_symbol = '󰂄'
 discharging_symbol = '󰂌'
 unknown_symbol = '󰁽'
 empty_symbol = '󰂃'
-format = '[](fg:gold)[ $symbol $percentage ]($style)[](fg:gold)'
+format = '[ ](fg:gold)[ $symbol $percentage ]($style)[   ](fg:gold)'
 
-# low battery -> crimson text on the gold island (caps stay gold)
 [[battery.display]]
 threshold = 20
-style = 'fg:crimson bg:gold'
-
-[[battery.display]]
-threshold = 100
-style = 'fg:color700 bg:gold'
+style = 'fg:crimson'
 
 [fill]
 symbol = ' '
@@ -130,71 +125,166 @@ modified = '!${count} '
 staged = '+${count} '
 renamed = '»${count} '
 deleted = '✘${count} '
-format = '[[ $all_status$ahead_behind](fg:color700 bg:sage)]($style)[](fg:sage)'
+format = '[[ $all_status$ahead_behind](fg:color700 bg:sage)]($style)[](fg:sage)'
 
-[nodejs]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[c]
-symbol = " "
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
+# [nodejs]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [c]
+# symbol = " "
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
 # [cpp]
 # symbol = " "
 # style = "bg:slate"
-# format = '[[ $symbol( $version) ](fg:color10 bg:slate)]($style)'
-
-[rust]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[golang]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[php]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[java]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[kotlin]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[haskell]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[erlang]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[elixir]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[python]
-symbol = ""
-style = "bg:slate"
-format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
-
-[docker_context]
-style = "bg:color500"
-format = '[](fg:slate)[[ $symbol( $context) ](fg:tide bg:color500)]($style)[](fg:color500)'
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [rust]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [golang]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [php]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [java]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [kotlin]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [haskell]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [erlang]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [elixir]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [python]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [ruby]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [swift]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [scala]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [dart]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [lua]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [julia]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [perl]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [crystal]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [nim]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [ocaml]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [zig]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [dotnet]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [deno]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [bun]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [elm]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [rlang]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [cmake]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [gradle]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [terraform]
+# symbol = ""
+# style = "bg:slate"
+# format = '[](fg:slate)[[ $symbol( $version) ](fg:color10 bg:slate)]($style)[](fg:slate)'
+#
+# [docker_context]
+# style = "bg:color500"
+# format = '[](fg:slate)[[ $symbol( $context) ](fg:tide bg:color500)]($style)[](fg:color500)'
 
 [line_break]
 disabled = false
