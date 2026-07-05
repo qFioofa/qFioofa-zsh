@@ -1,13 +1,10 @@
-# Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# Download Zinit, if it"s not there yet
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
-# Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Plugin individual settings.
@@ -20,6 +17,7 @@ source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 source "${PLUGIN_FOLDER}/man-colors.zsh"
 source "${PLUGIN_FOLDER}/git-tools.zsh"
 source "${PLUGIN_FOLDER}/fzf-extras.zsh"
+source "${PLUGIN_FOLDER}/keyboard-layout.zsh"
 
 # Hooks applied by zinit's `atload` once the relevant plugin has finished loading
 # (turbo plugins load after the first prompt, so these run then too).
@@ -44,7 +42,6 @@ zinit light zsh-users/zsh-history-substring-search
 zinit ice wait lucid atinit"zicompinit; zicdreplay"
 zinit light zsh-users/zsh-syntax-highlighting
 
-# Keybindings
 bindkey -e
 bindkey "^[w" kill-region
 
@@ -76,7 +73,6 @@ bindkey '^[[5C'   forward-word
 bindkey '^[[5D'   backward-word
 bindkey '^H'      backward-kill-word     # Ctrl+Backspace (delete word back)
 
-# History
 HISTSIZE=5000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
@@ -98,7 +94,6 @@ setopt PUSHD_SILENT
 setopt INTERACTIVE_COMMENTS
 setopt EXTENDED_GLOB
 
-# Completion styling
 zstyle ":completion:*" matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ":completion:*" list-colors "${(s.:.)LS_COLORS}"
 # Classic highlighted menu: navigate with Tab/arrows, Enter accepts.
@@ -156,7 +151,6 @@ alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 alias claude="claude --dangerously-skip-permissions"
 
-# xdg-utils (shorter names for the long xdg-* commands)
 alias open="xdg-open"            # open a file/URL with the default app
 alias xo="xdg-open"
 alias xmime="xdg-mime"           # query/set default app for a mime type
@@ -166,11 +160,9 @@ alias xdir="xdg-user-dir"        # resolve XDG dirs, e.g. xdir DOWNLOAD
 
 # Git aliases & tooling live in plugins/git-tools.zsh (sourced above).
 
-# Docker
 alias d-c="docker compose"
 alias d-cl="docker compose logs -f"
 
-# Tmux
 alias tm="tmux"
 alias tmd="tmux detach-client"
 
@@ -195,7 +187,6 @@ tmn() {
     fi
 }
 
-# Nix
 nixs() {
     local query="${*}"
     query="${query// /+}"
@@ -277,6 +268,18 @@ bindkey 'p>' player_next_cmd
 bindkey 'P>' player_next_cmd
 bindkey 'p||' player_toggle_cmd
 bindkey 'P||' player_toggle_cmd
+
+# Russian layout (ЙЦУКЕН) mirrors: p -> з, and < > -> , . by key position
+bindkey 'з+' player_vol_up
+bindkey 'З+' player_vol_up
+bindkey 'з-' player_vol_down
+bindkey 'З-' player_vol_down
+bindkey 'з,' player_prev_cmd
+bindkey 'З,' player_prev_cmd
+bindkey 'з.' player_next_cmd
+bindkey 'З.' player_next_cmd
+bindkey 'з||' player_toggle_cmd
+bindkey 'З||' player_toggle_cmd
 
 export EDITOR=nvim
 export VISUAL=nvim
