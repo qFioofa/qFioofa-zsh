@@ -10,6 +10,7 @@ format = """
 $fill\
 $battery\
 $docker_context\
+${custom.python_venv}\
 $git_branch\
 $git_state\
 $git_status\
@@ -288,6 +289,16 @@ format = '[[ $all_status$ahead_behind](fg:color700 bg:sage)]($style)[](fg:sag
 
 [line_break]
 disabled = false
+
+# Active Python virtualenv name (only when $VIRTUAL_ENV is set — works in any dir,
+# unlike the native [python] module which keys off project files).
+[custom.python_venv]
+disabled = false
+symbol = ""
+command = 'basename "$VIRTUAL_ENV"'
+when = 'test -n "$VIRTUAL_ENV"'
+format = '[](fg:slate)[[ $symbol $output ](fg:color10 bg:slate)]($style)[](fg:slate) '
+style = "bg:slate"
 
 [custom.tmux]
 disabled = false
