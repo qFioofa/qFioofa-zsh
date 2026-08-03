@@ -2,7 +2,7 @@
 
 set -e
 
-ZSH_CONFIG_DIR="$HOME/.config/zsh"
+ZSH_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 ZDOTDIR_ENV="$HOME/.zshenv"
 CURRENT_DIR="$(pwd)"
 SRC_DIR="$CURRENT_DIR/src"

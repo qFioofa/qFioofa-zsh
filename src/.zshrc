@@ -11,8 +11,12 @@ source "${ZINIT_HOME}/zinit.zsh"
 # These only set variables / define widgets, so they are sourced now (before the
 # turbo-loaded plugins activate after the first prompt).
 PLUGIN_FOLDER="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
-# starship reads ~/.config/starship.toml by default — deployed from the
-# separate starship repo (see scripts/deploy.sh).
+# starship config is deployed from the separate starship repo to
+# ${XDG_CONFIG_HOME:-$HOME/.config}/starship.toml (see scripts/deploy.sh).
+# Pin STARSHIP_CONFIG so an inherited stale value (the old config pointed it
+# into plugins/ — a path deploy -r wipes) can't silently switch starship back
+# to its default preset and "lose" the theme.
+export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship.toml"
 source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 source "${PLUGIN_FOLDER}/man-colors.zsh"
@@ -151,6 +155,7 @@ alias d="dirs -v"                # jump list populated by AUTO_PUSHD
 alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 alias claude="claude --dangerously-skip-permissions"
+alias opencode="opencode --yolo"
 
 alias open="xdg-open"            # open a file/URL with the default app
 alias xo="xdg-open"
