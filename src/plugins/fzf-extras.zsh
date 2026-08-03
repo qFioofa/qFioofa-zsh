@@ -1,4 +1,4 @@
-# fzf appearance & widgets, themed with yugen-ash (see plugins/starship.toml).
+# fzf appearance & widgets, themed with yugen-ash (see the starship repo's starship.toml).
 # These env vars are read by fzf at call time, so setting them here (before the
 # `fzf --zsh` integration loads at the end of .zshrc) is enough.
 

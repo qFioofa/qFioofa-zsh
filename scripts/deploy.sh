@@ -111,6 +111,16 @@ else
     echo "   exec zsh  # или откройте новый терминал"
 fi
 
+# starship: ставим и разворачиваем общий конфиг из соседнего репозитория starship/
+STARSHIP_DEPLOY="$CURRENT_DIR/../starship/scripts/deploy.sh"
+if [ -f "$STARSHIP_DEPLOY" ]; then
+    echo -e "\nНастройка starship..."
+    bash "$STARSHIP_DEPLOY"
+else
+    echo -e "\nРепозиторий starship не найден рядом — установите промпт отдельно:"
+    echo "   git clone <starship-repo> && bash starship/scripts/deploy.sh"
+fi
+
 echo -e "\nПроверка установки:"
 echo "• Текущий shell: $(basename "$SHELL")"
 echo "• Режим развертывания: $(if [ "$USE_XDG" = true ]; then echo "XDG"; else echo "Legacy"; fi)"

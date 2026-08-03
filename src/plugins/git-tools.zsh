@@ -1,4 +1,4 @@
-# Git tooling. Diff colors follow the yugen-ash palette (see plugins/starship.toml).
+# Git tooling. Diff colors follow the yugen-ash palette (see the starship repo's starship.toml).
 
 # delta — syntax-highlighted, line-numbered diffs as git's pager. Configured
 # here rather than in ~/.gitconfig so this repo stays the single source of truth

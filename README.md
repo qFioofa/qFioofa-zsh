@@ -53,8 +53,13 @@ zinit zstatus
 
 ## Prompt
 
+The prompt is [starship](https://starship.rs) with a shared config living in
+the separate `starship` repo. `scripts/deploy.sh` installs starship and
+deploys that config automatically when the `starship/` repo sits next to this
+one; otherwise set it up by hand:
+
 ```bash
-sudo apt install starship
+bash ../starship/scripts/deploy.sh
 ```
 
 ## Player

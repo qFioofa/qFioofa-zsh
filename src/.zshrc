@@ -11,7 +11,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 # These only set variables / define widgets, so they are sourced now (before the
 # turbo-loaded plugins activate after the first prompt).
 PLUGIN_FOLDER="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
-export STARSHIP_CONFIG="${PLUGIN_FOLDER}/starship.toml"
+# starship reads ~/.config/starship.toml by default — deployed from the
+# separate starship repo (see scripts/deploy.sh).
 source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 source "${PLUGIN_FOLDER}/man-colors.zsh"
@@ -110,7 +111,7 @@ setopt LIST_AMBIGUOUS
 setopt AUTO_MENU
 unsetopt MENU_COMPLETE
 
-# eza file colors drawn from the yugen-ash palette (see plugins/starship.toml).
+# eza file colors drawn from the yugen-ash palette (see the starship repo's starship.toml).
 # di=dirs(tide) fi=files(color200) ex=exec(sage) ln=symlink(mist) or=broken(crimson)
 # bd/cd=devices(gold) pi/so=pipe/socket(bloom); plus a few extension groups.
 export EZA_COLORS="\
@@ -167,7 +168,7 @@ alias tm="tmux"
 alias tmd="tmux detach-client"
 
 tmn() {
-    local terms="${1:-1}"
+    local terms="${1:-2}"
     local dir="$PWD"
     local session="${PWD:t}-$$"
 
