@@ -21,6 +21,8 @@ source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 source "${PLUGIN_FOLDER}/man-colors.zsh"
 source "${PLUGIN_FOLDER}/git-tools.zsh"
+source "${PLUGIN_FOLDER}/python-tools.zsh"
+source "${PLUGIN_FOLDER}/uv-tools.zsh"
 source "${PLUGIN_FOLDER}/fzf-extras.zsh"
 source "${PLUGIN_FOLDER}/keyboard-layout.zsh"
 
