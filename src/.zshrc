@@ -175,11 +175,19 @@ alias tm="tmux"
 alias tmd="tmux detach-client"
 
 tmn() {
-    local terms="${1:-2}"
+    local cmd
     local dir="$PWD"
     local session="${PWD:t}-$$"
+    local terms=0
 
-    tmux new-session -d -s "$session" -c "$dir" "nvim ."
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+        terms="${1}"
+        cmd="nvim ."
+    else
+        cmd="${1:-nvim .}"
+    fi
+
+    tmux new-session -d -s "$session" -c "$dir" "$SHELL -ic '$cmd; exec $SHELL'"
 
     local i
     for (( i = 1; i <= terms; i++ )); do
