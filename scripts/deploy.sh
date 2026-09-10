@@ -111,14 +111,11 @@ else
     echo "   exec zsh  # или откройте новый терминал"
 fi
 
-# starship: ставим и разворачиваем общий конфиг из соседнего репозитория starship/
-STARSHIP_DEPLOY="$CURRENT_DIR/../starship/scripts/deploy.sh"
-if [ -f "$STARSHIP_DEPLOY" ]; then
-    echo -e "\nНастройка starship..."
-    bash "$STARSHIP_DEPLOY"
-else
-    echo -e "\nРепозиторий starship не найден рядом — установите промпт отдельно:"
-    echo "   git clone <starship-repo> && bash starship/scripts/deploy.sh"
+# starship: конфиг уже лежит в src/plugins/starship.toml и развернётся вместе
+# с остальными плагинами. Проверим, что starship установлен.
+if ! command -v starship >/dev/null 2>&1; then
+    echo -e "\n⚠ starship не установлен. Установите:"
+    echo "   curl -sS https://starship.rs/install.sh | sh"
 fi
 
 echo -e "\nПроверка установки:"

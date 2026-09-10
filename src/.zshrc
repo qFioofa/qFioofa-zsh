@@ -11,12 +11,10 @@ source "${ZINIT_HOME}/zinit.zsh"
 # These only set variables / define widgets, so they are sourced now (before the
 # turbo-loaded plugins activate after the first prompt).
 PLUGIN_FOLDER="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
-# starship config is deployed from the separate starship repo to
-# ${XDG_CONFIG_HOME:-$HOME/.config}/starship.toml (see scripts/deploy.sh).
-# Pin STARSHIP_CONFIG so an inherited stale value (the old config pointed it
-# into plugins/ — a path deploy -r wipes) can't silently switch starship back
-# to its default preset and "lose" the theme.
-export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship.toml"
+# starship config lives next to the plugins it is loaded with.
+# Pin STARSHIP_CONFIG so an inherited stale value can't silently switch starship
+# back to its default preset and "lose" the theme.
+export STARSHIP_CONFIG="${ZDOTDIR:-$HOME/.config/zsh}/plugins/starship.toml"
 source "${PLUGIN_FOLDER}/syntax-highlighting.zsh"
 source "${PLUGIN_FOLDER}/autosuggestions.zsh"
 source "${PLUGIN_FOLDER}/man-colors.zsh"
@@ -117,7 +115,7 @@ setopt LIST_AMBIGUOUS
 setopt AUTO_MENU
 unsetopt MENU_COMPLETE
 
-# eza file colors drawn from the yugen-ash palette (see the starship repo's starship.toml).
+# eza file colors drawn from the yugen-ash palette (see plugins/starship.toml).
 # di=dirs(tide) fi=files(color200) ex=exec(sage) ln=symlink(mist) or=broken(crimson)
 # bd/cd=devices(gold) pi/so=pipe/socket(bloom); plus a few extension groups.
 export EZA_COLORS="\

@@ -53,13 +53,13 @@ zinit zstatus
 
 ## Prompt
 
-The prompt is [starship](https://starship.rs) with a shared config living in
-the separate `starship` repo. `scripts/deploy.sh` installs starship and
-deploys that config automatically when the `starship/` repo sits next to this
-one; otherwise set it up by hand:
+The prompt is [starship](https://starship.rs) with the config bundled in
+`src/plugins/starship.toml` (yugen-ash palette). `scripts/deploy.sh` checks
+that starship is installed; the config file is deployed automatically with
+the rest of `src/`.
 
 ```bash
-bash ../starship/scripts/deploy.sh
+curl -sS https://starship.rs/install.sh | sh
 ```
 
 ## Player
