@@ -171,6 +171,7 @@ alias d-cl="docker compose logs -f"
 
 alias tm="tmux"
 alias tmd="tmux detach-client"
+alias m="make"
 
 tmn() {
     local cmd
