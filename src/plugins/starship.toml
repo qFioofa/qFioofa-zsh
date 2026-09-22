@@ -14,6 +14,7 @@ ${custom.python_venv}\
 $git_branch\
 $git_state\
 $git_status\
+${custom.nix}\
 ${custom.tmux}\
 $line_break$character"""
 
@@ -304,6 +305,13 @@ command = "echo  "
 when = "env | grep -q '^TMUX='"
 format = '[](fg:sage)[[ $output ](fg:color100 bg:sage)]($style)[](fg:sage)'
 style = "bg:sage"
+
+[custom.nix]
+disabled = false
+command = "echo  "
+when = '[ -n "$IN_NIX_SHELL" ]'
+format = '[](fg:tide)[[ $output  ](fg:color100 bg:tide)]($style)[](fg:tide)'
+style = "bg:tide"
 
 [character]
 disabled = false
