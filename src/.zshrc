@@ -156,6 +156,7 @@ alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 alias claude="claude --dangerously-skip-permissions"
 alias opencode="opencode --yolo"
+alias op="opencode --yolo"
 
 alias open="xdg-open"            # open a file/URL with the default app
 alias xo="xdg-open"
