@@ -178,7 +178,7 @@ alias r="rake"
 tmn() {
     local cmd
     local dir="$PWD"
-    local session="${PWD:t}-$$"
+    local session="${${PWD:t}//[^A-Za-z0-9_-]/-}-$$"
     local terms=0
 
     if [[ "$1" =~ ^[0-9]+$ ]]; then
@@ -188,19 +188,19 @@ tmn() {
         cmd="${1:-nvim .}"
     fi
 
-    tmux new-session -d -s "$session" -c "$dir" "$SHELL -ic '$cmd; exec $SHELL'"
+    tmux new-session -d -s "$session" -n main -c "$dir" "$SHELL -ic '$cmd; exec $SHELL'"
 
     local i
     for (( i = 1; i <= terms; i++ )); do
-        tmux new-window -t "$session" -c "$dir"
+        tmux new-window -t "=$session" -c "$dir"
     done
 
-    tmux select-window -t "$session":0
+    tmux select-window -t "=$session:main"
 
     if [ -n "$TMUX" ]; then
-        tmux switch-client -t "$session"
+        tmux switch-client -t "=$session"
     else
-        tmux attach-session -t "$session"
+        tmux attach-session -t "=$session"
     fi
 }
 
