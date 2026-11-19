@@ -7,16 +7,16 @@ format = """
 [  ](fg:color100 bg:rust)\
 [$directory](fg:color100 bg:rust)\
 [ ](fg:rust)\
-$fill\
-$battery\
+$line_break$character"""
+
+right_format = """$battery\
 $docker_context\
 ${custom.python_venv}\
 $git_branch\
 $git_state\
 $git_status\
 ${custom.nix}\
-${custom.tmux}\
-$line_break$character"""
+${custom.tmux}"""
 
 palette = 'yugen-ash'
 
