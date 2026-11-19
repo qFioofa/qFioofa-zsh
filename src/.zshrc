@@ -139,6 +139,7 @@ alias ll="eza -la --icons --group-directories-first --git"
 alias la="eza -a --icons --group-directories-first"
 alias lt="eza --tree --level=2 --icons"
 alias cat="bat --paging=never"
+alias ccat="command cat"
 alias top="btop"
 alias du="dust"
 alias grep="grep --color=auto"   # rg is great, but kept separate to avoid flag surprises
@@ -155,8 +156,8 @@ alias d="dirs -v"                # jump list populated by AUTO_PUSHD
 alias pwf="poweroff"
 alias mer="~/meridius-3.3.5/meridius --no-sandbox > /dev/null 2>&1 &"
 alias claude="claude --dangerously-skip-permissions"
-alias opencode="opencode --yolo"
 alias op="opencode --yolo"
+alias opencode="opencode --yolo"
 
 alias open="xdg-open"            # open a file/URL with the default app
 alias xo="xdg-open"
@@ -203,6 +204,13 @@ tmn() {
         tmux attach-session -t "=$session"
     fi
 }
+
+_tmn_widget() {
+    BUFFER="tmn 2"
+    zle accept-line
+}
+zle -N _tmn_widget
+bindkey '^[,' _tmn_widget
 
 nixs() {
     local query="${*}"
@@ -302,5 +310,69 @@ export EDITOR=nvim
 export VISUAL=nvim
 
 eval "$(starship init zsh)"
+
+# Starship's zsh integration puts the right modules into RPROMPT, i.e. on the
+# line where the cursor lives. Keep the original two-line layout instead:
+#   [user][dir] .......... [git]   <- first line
+#   [character]                    <- input line
+# If the window is too narrow for the right part, drop it instead of letting
+# the terminal wrap the prompt (which used to break the layout on resize).
+_starship_build_prompt() {
+    setopt localoptions extendedglob
+    local left right prefix line1 rest vis width fill _pad
+    local -a args
+    args=(
+        --terminal-width="${COLUMNS:-80}"
+        --keymap="${KEYMAP:-}"
+        --status="${STARSHIP_CMD_STATUS:-0}"
+        --pipestatus="${STARSHIP_PIPE_STATUS[*]:-0}"
+        --cmd-duration="${STARSHIP_DURATION:-0}"
+        --jobs="${STARSHIP_JOBS_COUNT:-0}"
+    )
+    left="$(starship prompt $args)"
+    right="$(starship prompt --right $args)"
+    right="${right//$'\n'/}"
+
+    # Peel off the leading blank line added by starship's add_newline.
+    prefix=""
+    while [[ "$left" == $'\n'* ]]; do
+        prefix+=$'\n'
+        left="${left#$'\n'}"
+    done
+    line1="${left%%$'\n'*}"
+    rest="${left#*$'\n'}"
+    [[ "$rest" == "$left" ]] && rest=""
+
+    if [[ -z "$right" ]]; then
+        print -rn -- "${prefix}${line1}"$'\n'"${rest}"
+        return
+    fi
+
+    # Visible width only: strip zsh's zero-width %{...%} wrappers.
+    vis="${line1}${right}"
+    vis="${vis//\%\{[^%]#\%\}/}"
+    width=$(print -rn -- "$vis" | wc -L 2>/dev/null)
+    width=${width//[^0-9]/}
+    # Fallback for wc implementations without -L: count characters instead.
+    [[ -n "$width" ]] || width=${(m)#vis}
+    : ${width:=0}
+
+    fill=$(( ${COLUMNS:-80} - width - 1 ))
+    if (( fill < 0 )); then
+        print -rn -- "${prefix}${line1}"$'\n'"${rest}"
+    else
+        printf -v _pad '%*s' "$fill" ''
+        print -rn -- "${prefix}${line1}${_pad}${right}"$'\n'"${rest}"
+    fi
+}
+
+PROMPT='$(_starship_build_prompt)'
+RPROMPT=''
+
+# A resize must re-render the prompt with the new $COLUMNS.
+TRAPWINCH() {
+    zle && zle .reset-prompt
+}
+
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
